@@ -1,0 +1,41 @@
+---
+---
+<button
+  type="button"
+  data-theme-toggle
+  class="border-3 border-line bg-card px-3 py-1 text-sm font-semibold shadow-hard-sm"
+>
+  Tema: <span data-theme-name>claro</span>
+</button>
+
+<script>
+  const themes = ["light", "dark", "atardecer"];
+  const labels: Record<string, string> = { light: "claro", dark: "oscuro", atardecer: "atardecer" };
+  const root = document.documentElement;
+
+  const current = () => root.dataset.theme ?? "light";
+
+  const syncButtons = () => {
+    const theme = current();
+    const next = themes[(themes.indexOf(theme) + 1) % themes.length];
+    document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((button) => {
+      button.querySelector("[data-theme-name]")!.textContent = labels[theme];
+      button.setAttribute("aria-label", `Tema: ${labels[theme]}. Cambiar a ${labels[next]}`);
+    });
+  };
+
+  const apply = (theme: string) => {
+    root.dataset.theme = theme;
+    try { localStorage.setItem("theme", theme); } catch {}
+    syncButtons();
+  };
+
+  // Delegación en document: sigue funcionando cuando View Transitions cambie el <body>
+  document.addEventListener("click", (event) => {
+    if (!(event.target as Element).closest("[data-theme-toggle]")) return;
+    apply(themes[(themes.indexOf(current()) + 1) % themes.length]);
+  });
+
+  syncButtons();
+  document.addEventListener("astro:page-load", syncButtons);
+</script>

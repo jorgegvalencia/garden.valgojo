@@ -1,0 +1,30 @@
+---
+import { topics, type Topic } from "../lib/garden";
+
+interface Props {
+  topic: Topic;
+  /** Si se pasa, la etiqueta es un enlace de filtro */
+  href?: string;
+  active?: boolean;
+  class?: string;
+}
+const { topic, href, active = false, class: className } = Astro.props;
+const { label, bg, hoverBg } = topics[topic];
+const Element = href ? "a" : "span";
+---
+<Element
+  href={href}
+  aria-current={href && active ? "page" : undefined}
+  class:list={[
+    "inline-block self-start border-2 border-line px-2 text-xs font-bold",
+    href
+      ? [
+          "py-1 text-sm transition duration-100 motion-reduce:transition-none",
+          active ? [bg, "text-on-accent shadow-hard-sm -translate-0.5"] : ["bg-card text-ink", hoverBg, "hover:text-on-accent"],
+        ]
+      : [bg, "text-on-accent"],
+    className,
+  ]}
+>
+  <slot>{label}</slot>
+</Element>

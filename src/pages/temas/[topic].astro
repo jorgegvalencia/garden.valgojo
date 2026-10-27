@@ -1,0 +1,17 @@
+---
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import GardenIndex from "../../components/GardenIndex.astro";
+import { topicKeys, topics, type Topic } from "../../lib/garden";
+import { getNotes } from "../../lib/notes";
+
+export const getStaticPaths = (() => topicKeys.map((topic) => ({ params: { topic } }))) satisfies GetStaticPaths;
+
+const topic = Astro.params.topic as Topic;
+const notes = (await getNotes()).filter(({ data }) => data.topic === topic);
+---
+<BaseLayout title={`${topics[topic].label} · Jardín digital`}>
+  <main>
+    <GardenIndex notes={notes} activeTopic={topic} />
+  </main>
+</BaseLayout>

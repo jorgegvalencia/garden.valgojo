@@ -1,0 +1,14 @@
+---
+import PixelSprite from "./PixelSprite.astro";
+import { stages, type Stage } from "../lib/garden";
+
+interface Props {
+  stage: Stage;
+  class?: string;
+}
+const { stage, class: className } = Astro.props;
+---
+<span class:list={["inline-flex items-center gap-1.5 text-sm font-semibold", className]} title={stages[stage].description}>
+  <PixelSprite name={stage} size={24} />
+  {stages[stage].label}
+</span>

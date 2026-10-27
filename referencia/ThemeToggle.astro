@@ -1,0 +1,27 @@
+---
+---
+<button
+  id="theme-toggle"
+  type="button"
+  class="border-3 border-ink bg-card px-3 py-1 text-sm font-semibold shadow-hard-sm"
+>
+  Tema: <span id="theme-name"></span>
+</button>
+
+<script>
+  const temas = ["light", "dark", "atardecer"];
+  const root = document.documentElement;
+  const nombre = document.getElementById("theme-name")!;
+
+  const aplicar = (tema: string) => {
+    root.dataset.theme = tema;
+    try { localStorage.setItem("theme", tema); } catch {}
+    nombre.textContent = tema;
+  };
+
+  nombre.textContent = root.dataset.theme ?? "light";
+  document.getElementById("theme-toggle")!.addEventListener("click", () => {
+    const i = temas.indexOf(root.dataset.theme ?? "light");
+    aplicar(temas[(i + 1) % temas.length]);
+  });
+</script>

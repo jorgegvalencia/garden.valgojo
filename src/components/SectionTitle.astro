@@ -1,0 +1,11 @@
+---
+interface Props {
+  as?: "h2" | "h3";
+  id?: string;
+  class?: string;
+}
+const { as: Heading = "h2", id, class: className } = Astro.props;
+---
+<Heading id={id} class:list={["font-pixel text-xs leading-relaxed uppercase sm:text-sm", className]}>
+  <slot />
+</Heading>

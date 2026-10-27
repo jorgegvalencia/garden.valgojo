@@ -1,0 +1,12 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GardenIndex from "../components/GardenIndex.astro";
+import { getNotes } from "../lib/notes";
+
+const notes = await getNotes();
+---
+<BaseLayout title="Jardín digital">
+  <main>
+    <GardenIndex notes={notes} />
+  </main>
+</BaseLayout>

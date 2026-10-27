@@ -1,0 +1,70 @@
+---
+import NoteCard from "./NoteCard.astro";
+import SectionTitle from "./SectionTitle.astro";
+import Tag from "./Tag.astro";
+import PixelSprite from "./PixelSprite.astro";
+import { stages, topicKeys, topics, type Topic } from "../lib/garden";
+import type { Note } from "../lib/notes";
+
+interface Props {
+  notes: Note[];
+  activeTopic?: Topic;
+}
+const { notes, activeTopic } = Astro.props;
+---
+<section class="pt-6 pb-16 sm:pt-12">
+  <h1 class="max-w-3xl text-4xl leading-[1.05] font-bold tracking-tight sm:text-6xl">
+    Un jardín de ideas <span class="relative inline-block -rotate-1 bg-leaf px-2 text-on-accent">a medio crecer</span>
+  </h1>
+  <p class="mt-6 max-w-xl text-lg text-muted">
+    Notas que se plantan pronto y se riegan con el tiempo. Algunas son solo una semilla; otras ya dan sombra.
+  </p>
+  <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-3" aria-label="Etapas de crecimiento">
+    {
+      Object.entries(stages).map(([key, { label, description }]) => (
+        <li class="flex items-center gap-2 text-sm">
+          <PixelSprite name={key as keyof typeof stages} size={24} />
+          <span><strong>{label}</strong> <span class="text-muted">· {description}</span></span>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<section aria-labelledby="notes-title">
+  <div class="mb-8 flex flex-col gap-5">
+    <SectionTitle id="notes-title">{activeTopic ? `Notas · ${topics[activeTopic].label}` : "Todas las notas"}</SectionTitle>
+    <nav aria-label="Filtrar por tema">
+      <ul class="flex flex-wrap gap-3">
+        <li>
+          <a
+            href="/"
+            aria-current={activeTopic ? undefined : "page"}
+            class:list={[
+              "inline-block border-2 border-line px-2 py-1 text-sm font-bold transition duration-100 motion-reduce:transition-none",
+              activeTopic ? "bg-card text-ink hover:bg-ink hover:text-paper" : "-translate-0.5 bg-ink text-paper shadow-hard-sm",
+            ]}
+          >
+            Todas
+          </a>
+        </li>
+        {topicKeys.map((topic) => (
+          <li><Tag topic={topic} href={`/temas/${topic}/`} active={topic === activeTopic} /></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+
+  {
+    notes.length > 0 ? (
+      <div class="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+        {notes.map((note) => <NoteCard note={note} />)}
+      </div>
+    ) : (
+      <div class="brutal flex items-center gap-4 p-6">
+        <PixelSprite name="semilla" size={48} />
+        <p>Aún no hay nada plantado en este tema. Vuelve dentro de unas semanas.</p>
+      </div>
+    )
+  }
+</section>

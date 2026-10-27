@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+/* Variante dark para casos puntuales: dark:bg-... (solo con data-theme="dark") */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* 1. VALORES DE CADA TEMA
+   Un tema nuevo solo sobrescribe lo que cambie. El resto se hereda de :root. */
+@layer base {
+  :root,
+  [data-theme="light"] {
+    --paper: #f6f1e7;
+    --ink: #151515;
+    --card: #fffdf8;
+    --muted: #5b574f;
+    --leaf: #8fe3a3;
+    --sun: #ffd23f;
+    --bubble: #ff9ecb;
+    --sky: #8ecbff;
+    --lilac: #cdb2ff;
+    --tangerine: #ffb36b;
+    --on-accent: #151515; /* texto sobre los colores de acento */
+  }
+
+  [data-theme="dark"] {
+    --paper: #15151a;
+    --ink: #f3efe6;
+    --card: #1f1f26;
+    --muted: #a9a69d;
+  }
+
+  /* Ejemplo de tema extra */
+  [data-theme="atardecer"] {
+    --paper: #2b1740;
+    --ink: #ffe9d6;
+    --card: #3a2257;
+    --muted: #c7b0d6;
+    --sun: #ff8c5a;
+  }
+}
+
+/* 2. TOKENS DE TAILWIND
+   "inline" hace que las utilidades usen var(--paper), etc. directamente,
+   así cambian al cambiar data-theme sin recompilar. */
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-leaf: var(--leaf);
+  --color-sun: var(--sun);
+  --color-bubble: var(--bubble);
+  --color-sky: var(--sky);
+  --color-lilac: var(--lilac);
+  --color-tangerine: var(--tangerine);
+  --color-on-accent: var(--on-accent);
+
+  --shadow-hard-sm: 3px 3px 0 var(--ink);
+  --shadow-hard: 5px 5px 0 var(--ink);
+  --shadow-hard-lg: 8px 8px 0 var(--ink);
+}
+
+/* Tokens que no cambian con el tema */
+@theme {
+  --font-sans: "Space Grotesk", system-ui, sans-serif;
+  --font-pixel: "Press Start 2P", ui-monospace, monospace;
+}
+
+/* 3. BASE Y UTILIDADES PROPIAS */
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-paper text-ink font-sans antialiased; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+}
+
+/* Superficie neobrutalista: borde grueso + sombra dura */
+@utility brutal {
+  @apply border-3 border-ink bg-card shadow-hard;
+}

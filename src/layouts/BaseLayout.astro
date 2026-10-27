@@ -1,0 +1,49 @@
+---
+import "@fontsource/space-grotesk/latin-400.css";
+import "@fontsource/space-grotesk/latin-600.css";
+import "@fontsource/space-grotesk/latin-700.css";
+import "@fontsource/press-start-2p/latin-400.css";
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "Un jardín digital de ideas a medio crecer." } = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <!-- Se ejecuta antes de pintar para evitar el parpadeo del tema.
+         También se reaplica tras astro:after-swap, para cuando se activen las View Transitions. -->
+    <script is:inline>
+      (() => {
+        const themes = ["light", "dark", "atardecer"];
+        const pick = () => {
+          let saved = null;
+          try { saved = localStorage.getItem("theme"); } catch {}
+          if (themes.includes(saved)) return saved;
+          return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        };
+        const apply = () => { document.documentElement.dataset.theme = pick(); };
+        apply();
+        if (!window.__themeSwapListener) {
+          window.__themeSwapListener = true;
+          document.addEventListener("astro:after-swap", apply);
+        }
+      })();
+    </script>
+  </head>
+  <body class="min-h-dvh">
+    <div class="mx-auto max-w-6xl px-5 pb-20 sm:px-8">
+      <SiteHeader />
+      <slot />
+    </div>
+  </body>
+</html>

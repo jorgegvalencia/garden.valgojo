@@ -1,0 +1,62 @@
+---
+import type { GetStaticPaths } from "astro";
+import { render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Growing from "../../components/Growing.astro";
+import NoteCard from "../../components/NoteCard.astro";
+import NoteHeader from "../../components/NoteHeader.astro";
+import SectionTitle from "../../components/SectionTitle.astro";
+import TableOfContents from "../../components/TableOfContents.astro";
+import WateringHistory from "../../components/WateringHistory.astro";
+import { getNotes, getRelated, type Note } from "../../lib/notes";
+
+export const getStaticPaths = (async () => {
+  const notes = await getNotes();
+  return notes.map((note) => ({ params: { id: note.id }, props: { note, notes } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  note: Note;
+  notes: Note[];
+}
+const { note, notes } = Astro.props;
+const { Content, headings } = await render(note);
+const related = getRelated(note, notes);
+---
+<BaseLayout title={`${note.data.title} · Jardín digital`} description={note.data.summary}>
+  <main>
+    <NoteHeader note={note} />
+
+    <div class="grid gap-x-16 lg:grid-cols-[minmax(0,1fr)_15rem]">
+      <aside class="lg:order-last">
+        <TableOfContents headings={headings} />
+      </aside>
+
+      <article class="prose-note">
+        {
+          note.data.stage === "semilla" && (
+            <Growing title="Esta nota aún es una semilla">
+              Son apuntes sueltos: puede que cambie mucho o que no llegue a brotar.
+            </Growing>
+          )
+        }
+        <Content components={{ Growing }} />
+      </article>
+    </div>
+
+    <div class="mt-20 grid gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+      <WateringHistory note={note} />
+
+      {
+        related.length > 0 && (
+          <section aria-labelledby="related-title">
+            <SectionTitle id="related-title" class="mb-6">Notas relacionadas</SectionTitle>
+            <div class="grid gap-7 sm:grid-cols-2">
+              {related.map((other) => <NoteCard note={other} />)}
+            </div>
+          </section>
+        )
+      }
+    </div>
+  </main>
+</BaseLayout>

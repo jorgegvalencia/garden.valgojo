@@ -1,0 +1,33 @@
+---
+import PixelSprite from "./PixelSprite.astro";
+import SectionTitle from "./SectionTitle.astro";
+import { formatDate, isoDate } from "../lib/garden";
+import type { Note } from "../lib/notes";
+
+interface Props {
+  note: Note;
+}
+const { plantedAt, waterings } = Astro.props.note.data;
+// Del riego más reciente al momento de plantar
+const entries = [
+  ...waterings.map(({ date, note }) => ({ date, note, planted: false })),
+  { date: plantedAt, note: "Se plantó la semilla.", planted: true },
+].sort((a, b) => b.date.getTime() - a.date.getTime());
+---
+<section aria-labelledby="history-title">
+  <SectionTitle id="history-title" class="mb-6">Historial de riegos</SectionTitle>
+  <ol class="relative ml-3 border-l-3 border-dashed border-line">
+    {
+      entries.map(({ date, note, planted }) => (
+        <li class="relative pb-6 pl-8 last:pb-0">
+          <span class:list={["absolute top-0.5 -left-[0.6rem] size-4 border-3 border-line", planted ? "bg-sun" : "bg-sky"]} />
+          <time datetime={isoDate(date)} class="flex items-center gap-2 text-sm font-bold">
+            {planted && <PixelSprite name="semilla" size={24} />}
+            {formatDate(date)}
+          </time>
+          <p class="mt-1 text-muted">{note ?? "Regada sin comentarios."}</p>
+        </li>
+      ))
+    }
+  </ol>
+</section>

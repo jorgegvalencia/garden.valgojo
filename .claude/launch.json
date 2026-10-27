@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "astro",
+      "runtimeExecutable": "fnm",
+      "runtimeArgs": ["exec", "--using=24.14.0", "pnpm", "dev", "--port", "4321"],
+      "port": 4321
+    }
+  ]
+}

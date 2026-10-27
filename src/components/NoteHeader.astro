@@ -1,0 +1,45 @@
+---
+import PixelSprite from "./PixelSprite.astro";
+import Tag from "./Tag.astro";
+import { formatDate, isoDate, stages, topics } from "../lib/garden";
+import { lastWatered, type Note } from "../lib/notes";
+
+interface Props {
+  note: Note;
+}
+const { note } = Astro.props;
+const { title, summary, topic, stage, plantedAt, waterings } = note.data;
+const watered = lastWatered(note);
+---
+<header class="brutal relative mt-6 mb-12 grid gap-8 overflow-visible p-0 md:grid-cols-[1fr_auto]">
+  <div class:list={["h-3 border-b-3 border-line md:col-span-2", topics[topic].bg]}></div>
+
+  <div class="px-6 pb-8 sm:px-10">
+    <Tag topic={topic} />
+    <h1 class="mt-4 text-4xl leading-[1.05] font-bold tracking-tight text-balance sm:text-6xl">{title}</h1>
+    <p class="mt-5 max-w-2xl text-lg text-muted sm:text-xl">{summary}</p>
+    <dl class="mt-6 flex flex-wrap gap-x-8 gap-y-2 text-sm">
+      <div class="flex gap-1.5">
+        <dt class="text-muted">Plantada</dt>
+        <dd class="font-semibold"><time datetime={isoDate(plantedAt)}>{formatDate(plantedAt)}</time></dd>
+      </div>
+      <div class="flex gap-1.5">
+        <dt class="text-muted">Regada</dt>
+        <dd class="font-semibold"><time datetime={isoDate(watered)}>{formatDate(watered)}</time></dd>
+      </div>
+      <div class="flex gap-1.5">
+        <dt class="text-muted">Riegos</dt>
+        <dd class="font-semibold">{waterings.length}</dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- Pegatina de etapa con cinta adhesiva -->
+  <div class="px-6 pb-8 sm:px-10 md:self-center md:pr-10 md:pb-0 md:pl-0">
+    <div class="tape brutal flex w-44 rotate-2 flex-col items-center gap-3 p-5 text-center shadow-hard-sm">
+      <PixelSprite name={stage} size={72} label={`Etapa: ${stages[stage].label}`} />
+      <p class="font-bold">{stages[stage].label}</p>
+      <p class="text-xs text-muted">{stages[stage].description}</p>
+    </div>
+  </div>
+</header>

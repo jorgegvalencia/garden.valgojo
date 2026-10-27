@@ -1,0 +1,37 @@
+---
+import { palette, sprites, type SpriteName } from "../lib/sprites";
+
+interface Props {
+  name: SpriteName;
+  /** Tamaño en px; mejor múltiplos de 12 para que cada píxel sea entero */
+  size?: number;
+  label?: string;
+  class?: string;
+}
+const { name, size = 24, label, class: className } = Astro.props;
+const rows = sprites[name];
+
+// Une los píxeles contiguos del mismo color en un solo <rect> por fila
+const rects: { x: number; y: number; w: number; fill: string }[] = [];
+rows.forEach((row, y) => {
+  let x = 0;
+  while (x < row.length) {
+    const char = row[x];
+    let w = 1;
+    while (row[x + w] === char) w++;
+    if (palette[char]) rects.push({ x, y, w, fill: palette[char] });
+    x += w;
+  }
+});
+---
+<svg
+  viewBox="0 0 12 12"
+  width={size}
+  height={size}
+  class:list={["pixelated shrink-0", className]}
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+>
+  {rects.map(({ x, y, w, fill }) => <rect x={x} y={y} width={w} height="1" style={`fill:${fill}`} />)}
+</svg>

@@ -1,0 +1,20 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  items: MarkdownHeading[];
+  class?: string;
+}
+const { items, class: className } = Astro.props;
+---
+<ol class:list={["flex flex-col gap-2 text-sm", className]}>
+  {
+    items.map(({ depth, slug, text }) => (
+      <li class:list={[depth === 3 && "pl-4"]}>
+        <a href={`#${slug}`} class="block border-l-3 border-transparent pl-2 hover:border-line hover:font-semibold">
+          {text}
+        </a>
+      </li>
+    ))
+  }
+</ol>

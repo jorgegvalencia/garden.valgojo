@@ -1,0 +1,27 @@
+---
+import type { MarkdownHeading } from "astro";
+import SectionTitle from "./SectionTitle.astro";
+import TocList from "./TocList.astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+const items = Astro.props.headings.filter(({ depth }) => depth === 2 || depth === 3);
+---
+{
+  items.length > 0 && (
+    <>
+      {/* Móvil: desplegable encima del texto */}
+      <details class="brutal mb-10 p-4 shadow-hard-sm lg:hidden">
+        <summary class="cursor-pointer font-pixel text-xs uppercase">En esta nota</summary>
+        <TocList items={items} class="mt-4" />
+      </details>
+
+      {/* Escritorio: columna lateral fija al hacer scroll */}
+      <nav aria-labelledby="toc-title" class="sticky top-6 hidden lg:block">
+        <SectionTitle as="h2" id="toc-title" class="mb-4">En esta nota</SectionTitle>
+        <TocList items={items} />
+      </nav>
+    </>
+  )
+}

@@ -1,0 +1,20 @@
+---
+import PixelSprite from "./PixelSprite.astro";
+
+interface Props {
+  /** Texto del aviso; por defecto el genérico */
+  title?: string;
+}
+const { title = "Esta parte aún está creciendo" } = Astro.props;
+---
+<aside class="my-8 border-3 border-dashed border-line bg-leaf/25 p-4 sm:p-5" role="note">
+  <p class="flex items-center gap-2 text-base font-bold">
+    <PixelSprite name="brote" size={24} />
+    {title}
+  </p>
+  {Astro.slots.has("default") && (
+    <div class="mt-2 text-base text-muted [&_code]:border-2 [&_code]:border-line [&_code]:bg-card [&_code]:px-1">
+      <slot />
+    </div>
+  )}
+</aside>

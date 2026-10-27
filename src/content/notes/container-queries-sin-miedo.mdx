@@ -1,0 +1,47 @@
+---
+title: Container queries sin miedo
+summary: Cómo dejé de pensar en breakpoints de página y empecé a pensar en componentes que se adaptan a su hueco.
+topic: frontend
+stage: arbol
+plantedAt: 2026-03-02
+waterings:
+  - date: 2026-04-11
+    note: Añadido el ejemplo de tarjeta con cqi.
+  - date: 2026-07-20
+    note: Reescrita la sección de unidades.
+  - date: 2026-10-14
+    note: Notas sobre style queries.
+related:
+  - leer-noticias-despacio
+---
+
+Durante años diseñé pensando en la pantalla entera. Las container queries cambian la pregunta: ya no es "¿cómo de ancha es la ventana?", sino "¿cuánto sitio me han dado?".
+
+## El cambio de mentalidad
+
+Un componente que sabe medirse a sí mismo se puede mover a una barra lateral, a un modal o a una rejilla sin tocar su CSS.
+
+```css
+.card-wrapper { container-type: inline-size; }
+
+@container (min-width: 28rem) {
+  .card { grid-template-columns: 8rem 1fr; }
+}
+```
+
+### Unidades de contenedor
+
+`cqi` y `cqb` son a los contenedores lo que `vw` y `vh` a la ventana. Sirven para tipografía fluida dentro de una tarjeta.
+
+## Cuándo no usarlas
+
+- Para el esqueleto de la página siguen mandando las media queries.
+- Si el contenedor depende del tamaño de sus hijos, aparece un bucle y el navegador lo corta.
+
+## Style queries
+
+<Growing>
+Estoy probando `@container style(--variant: compact)`. De momento solo funciona con custom properties y aún no tengo claro si compensa frente a una clase.
+</Growing>
+
+> Lo mejor de las container queries es que te obligan a escribir componentes más honestos.

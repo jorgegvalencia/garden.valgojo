@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/* Variante dark para casos puntuales: dark:bg-... (solo con data-theme="dark") */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* 1. VALORES DE CADA TEMA
+   Un tema nuevo solo sobrescribe lo que cambie. El resto se hereda de :root. */
+@layer base {
+  :root,
+  [data-theme="light"] {
+    color-scheme: light;
+    --paper: #f6f1e7;
+    --ink: #151515;
+    --card: #fffdf8;
+    --muted: #5b574f;
+    --leaf: #8fe3a3;
+    --sun: #ffd23f;
+    --bubble: #ff9ecb;
+    --sky: #8ecbff;
+    --lilac: #cdb2ff;
+    --tangerine: #ffb36b;
+    --on-accent: #151515; /* texto sobre los colores de acento */
+    /* Bordes y sombras duras. Por defecto siguen a --ink; un tema puede separarlos. */
+    --line: var(--ink);
+    --shadow: var(--ink);
+  }
+
+  [data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #15151a;
+    --ink: #f3efe6;
+    --card: #1f1f26;
+    --muted: #a9a69d;
+  }
+
+  /* Ejemplo de tema extra */
+  [data-theme="atardecer"] {
+    color-scheme: dark;
+    --paper: #2b1740;
+    --ink: #ffe9d6;
+    --card: #3a2257;
+    --muted: #c7b0d6;
+    --sun: #ff8c5a;
+  }
+}
+
+/* 2. TOKENS DE TAILWIND
+   "inline" hace que las utilidades usen var(--paper), etc. directamente,
+   así cambian al cambiar data-theme sin recompilar. */
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-leaf: var(--leaf);
+  --color-sun: var(--sun);
+  --color-bubble: var(--bubble);
+  --color-sky: var(--sky);
+  --color-lilac: var(--lilac);
+  --color-tangerine: var(--tangerine);
+  --color-on-accent: var(--on-accent);
+  --color-line: var(--line);
+
+  --shadow-hard-sm: 3px 3px 0 var(--shadow);
+  --shadow-hard: 5px 5px 0 var(--shadow);
+  --shadow-hard-lg: 8px 8px 0 var(--shadow);
+}
+
+/* Tokens que no cambian con el tema */
+@theme {
+  --font-sans: "Space Grotesk", system-ui, sans-serif;
+  --font-pixel: "Press Start 2P", ui-monospace, monospace;
+}
+
+/* 3. BASE Y UTILIDADES PROPIAS */
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-paper text-ink font-sans antialiased; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+}
+
+/* Superficie neobrutalista: borde grueso + sombra dura */
+@utility brutal {
+  @apply border-3 border-line bg-card shadow-hard;
+}
+
+/* Cinta adhesiva translúcida pegada en el borde superior */
+@utility tape {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: -0.8rem;
+    left: 50%;
+    width: 5.5rem;
+    height: 1.6rem;
+    translate: -50% 0;
+    rotate: -4deg;
+    background: color-mix(in oklab, var(--sun) 55%, transparent);
+    /* bordes dentados de cinta cortada a mano */
+    clip-path: polygon(
+      0 8%, 4% 0, 96% 0, 100% 10%, 97% 30%, 100% 50%, 97% 70%, 100% 90%,
+      96% 100%, 4% 100%, 0 92%, 3% 70%, 0 50%, 3% 30%
+    );
+    pointer-events: none;
+  }
+}
+
+/* SVG de pixel art: sin suavizado entre píxeles */
+@utility pixelated {
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
+}
+
+/* Texto largo de las notas */
+@utility prose-note {
+  @apply max-w-[68ch] text-lg leading-relaxed;
+
+  & > * + * { @apply mt-5; }
+  & :where(h2, h3) { @apply scroll-mt-6 font-bold tracking-tight; }
+  & h2 { @apply mt-12 text-3xl; }
+  & h3 { @apply mt-8 text-xl; }
+  & a { @apply font-semibold underline decoration-2 underline-offset-3 hover:bg-sun hover:text-on-accent; }
+  & :where(ul, ol) { @apply pl-6; }
+  & ul { @apply list-[square]; }
+  & ol { @apply list-decimal; }
+  & li + li { @apply mt-2; }
+  & blockquote { @apply border-l-6 border-line pl-4 italic text-muted; }
+  & :not(pre) > code { @apply border-2 border-line bg-card px-1 text-base; }
+  & pre { @apply overflow-x-auto border-3 border-line p-4 text-base shadow-hard-sm; }
+  & hr { @apply my-10 border-t-3 border-dashed border-line; }
+}
