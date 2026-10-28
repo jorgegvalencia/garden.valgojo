@@ -1,0 +1,127 @@
+---
+title: "Cómo entiendo el desarrollo de producto digital"
+summary: "Mi marco de trabajo para llevar una idea desde el problema hasta la entrega: fases, roles y cómo lo reflejo en Linear."
+plantedAt: 2026-10-28
+waterings: 
+  - date: 2026-10-28
+stage: semilla
+topic: producto
+draft: false
+---
+
+Cuando hablo de **desarrollo de producto digital** me refiero al conjunto de prácticas y procedimientos que permiten idear, construir y evolucionar un producto digital para dar soporte a un negocio.
+
+Lo escribo porque, después de pasar por varios equipos, me he dado cuenta de que casi todos los problemas que he vivido en un proyecto no nacían en el código, sino mucho antes: en un problema mal definido, en una solución que nadie validó o en una estimación que se hizo demasiado tarde. Esta nota es mi intento de poner por escrito el flujo que me funciona, sobre todo para ordenar mis propias ideas. Es una nota viva: la iré ajustando.
+
+## El flujo de un vistazo
+
+Pienso el ciclo de vida de un proyecto como una secuencia de fases. Cada una responde a una pregunta distinta y tiene su propio estado en la herramienta de gestión (en mi caso, Linear):
+
+| Fase | Pregunta que responde |
+| :--- | :--- |
+| Definición del problema | ¿Qué está pasando y por qué importa? |
+| Definición de la solución | ¿Qué queremos conseguir? |
+| Product backlog | ¿Cuánto estamos dispuestos a invertir? |
+| Refinamiento | ¿Qué opciones tenemos y cuál es viable? |
+| Diseño de la solución | ¿Cómo será exactamente? |
+| Planificación | ¿Qué tareas hay que hacer? |
+| Ejecución | In progress / Blocked |
+| Seguimiento | ¿Ha funcionado? |
+| Cierre | Completed / Canceled |
+
+Las tres primeras fases viven en el *backlog*: todavía no hay compromiso del equipo. A partir del refinamiento, el proyecto ya está planificado y tiene equipo asignado.
+
+{/* TODO Jorge: en el esquema hay líneas continuas tras "Product backlog", "Diseño" y "Planificación". Si son puntos de decisión (go / no-go), merece la pena explicarlo aquí. */}
+
+## 1. Definición del problema
+
+Todo empieza por entender el **contexto**: cuál es la situación actual, con ejemplos concretos y, siempre que se pueda, con métricas. Sin datos, un problema es solo una opinión.
+
+En esta fase también se definen los **stakeholders**: qué departamento está afectado y quién es la persona de contacto. Parece un detalle menor, pero tener un interlocutor claro ahorra semanas de idas y vueltas más adelante.
+
+Con esa información se **evalúa el riesgo** y se asigna un **nivel de prioridad**. Para ello me ayudan dos preguntas:
+
+- ¿Cuál sería la situación **ideal**?
+- ¿Cuál sería una situación **aceptable**?
+
+La distancia entre la situación actual y la aceptable suele decir más sobre la urgencia que la distancia hasta la ideal. Y hay una señal clara de prioridad alta: cuando mantener la situación actual supone un riesgo para la operativa del negocio.
+
+## 2. Definición de la solución
+
+Aquí la pregunta clave es: **¿qué ocurre si seguimos en la misma situación?** Si la respuesta es "nada grave", quizás el proyecto no merezca la pena.
+
+Si seguimos adelante, se define una **solución inicial**, a alto nivel, de cómo resolver el problema. No es un diseño: es una descripción de qué hace la solución y dónde encaja en los flujos existentes. De aquí salen dos cosas:
+
+- El **objetivo del proyecto**.
+- Los **requisitos funcionales**.
+
+## 3. Product backlog
+
+Con el problema y la solución definidos, el proyecto entra en el backlog. Los proyectos se ordenan por **nivel de apetito**: cuánta capacidad y tiempo estamos dispuestos a emplear en ellos. Este concepto lo tomo de [Shape Up](https://basecamp.com/shapeup), y me parece una de las ideas más útiles que conozco: en lugar de preguntar "¿cuánto va a costar?", preguntamos "¿cuánto *vale la pena* que cueste?". Esto permite que el equipo sepa qué proyectos son más importantes y cuáles pueden esperar.
+
+En esta fase hay dos decisiones importantes:
+
+- El **engineering manager** asigna el proyecto a un equipo, con los miembros que considere necesarios en función de la capacidad.
+- El **product manager** decide cuándo el proyecto pasa a la siguiente fase, si se posterga o si se cancela. Esta decisión se basa en la prioridad del proyecto y en la capacidad del equipo.
+
+## 4. Refinamiento
+
+El refinamiento es la fase de **exploración de soluciones**. A partir de los requisitos, el equipo plantea alternativas en una lluvia de ideas. Aquí es donde se nota el valor de que el equipo técnico conozca la arquitectura del sistema: permite contemplar un espectro mucho más amplio de soluciones, y descartar pronto las que no encajan.
+
+Después se analiza la **viabilidad** de cada alternativa, se le asigna un **valor de esfuerzo** y se ordenan por preferencia. Ese valor es una estimación de alto nivel, a nivel de ciclos. Si una solución no cabe en un ciclo, la respuesta no es alargar el ciclo: es **dividir el proyecto en sub-proyectos**.
+
+En paralelo:
+
+- Se definen procesos que se adhieran a los requisitos funcionales.
+- El equipo técnico define los **requisitos no funcionales** (rendimiento, seguridad, escalabilidad…).
+- Se resuelven dudas con los stakeholders y se les pide feedback sobre las ideas.
+
+Los **artefactos** típicos de esta fase son: diseño de alto nivel, capturas de las aplicaciones actuales, bocetos y wireframes.
+
+## 5. Diseño de la solución
+
+Una vez escogida la solución definitiva, se genera un **diseño de alta fidelidad**. Con él:
+
+- Se revisa la viabilidad a nivel de interfaz.
+- El equipo valida que la solución se ajusta a los requisitos.
+- Se definen las **métricas** que servirán para saber si la solución ha funcionado o no.
+- El **product manager** presenta la solución escogida a los stakeholders para validarla.
+
+La fase termina con el **hand-off**: el diseño pasa formalmente al equipo que lo va a construir.
+
+{/* TODO Jorge: en Linear las métricas aparecen en esta fase (con el data analyst), pero no en el esquema de Excalidraw. Confirmar que encajan aquí. */}
+
+## 6. Planificación
+
+Con el diseño cerrado, se realiza una **estimación de esfuerzo** más fina y se definen **todas las tareas**: implementación, rollout y monitorización. También se crean tareas para la documentación, que de otro modo siempre se queda para "cuando haya tiempo".
+
+En la herramienta de gestión, cada tarea lleva su estimación de capacidad. Cuando el proyecto llega a *Planned*, está listo para que el equipo de ingeniería lo aborde.
+
+## 7. Ejecución y seguimiento
+
+> Esta sección está en crecimiento.
+
+La fase de ejecución recorre los estados *Por hacer → En progreso → Seguimiento → Completado*. Lo que quiero destacar por ahora es el estado de **seguimiento** (*Follow up*): un proyecto no termina cuando se despliega, sino cuando hemos revisado las métricas definidas en el diseño y sabemos si ha aportado el valor esperado.
+
+## Iniciativas y BAU
+
+No todo el trabajo es un proyecto nuevo. Distingo entre **proyectos de iniciativa** (nuevas capacidades o mejoras de producto) y proyectos **Business As Usual (BAU)**, el trabajo continuo de mantenimiento y operación. Los roles que describo a continuación son los mismos para ambos tipos.
+
+{/* TODO Jorge: ¿el flujo de un BAU recorre todas las fases o se salta alguna? Una o dos frases sobre la diferencia aclararían mucho. */}
+
+## Roles
+
+Los roles que participan en este flujo son:
+
+- **Product manager**: dueño del problema y de las decisiones de avance entre fases.
+- **Engineering manager**: dueño de la capacidad del equipo y de su composición.
+- **Product designer**: lleva la solución de los bocetos al diseño de alta fidelidad.
+- **Data analyst**: define y revisa las métricas de éxito.
+- **Product engineer**: frontend, backend o fullstack developer.
+- **DevOps**: infraestructura, despliegue y operación.
+
+## Reflexión
+
+Hay algo que me parece interesante resaltar: existe una **tendencia a que estos roles converjan en uno solo**. Con los LLM y los agentes de IA, escribir código se está mercantilizando. Lo que cada vez distingue más a un buen *product engineer* no es cuánto código produce, sino su capacidad para entender el problema, explorar soluciones y decidir cuál merece la pena construir; es decir, justo las fases que vienen *antes* de la ejecución.
+
+Quizás por eso este marco me parece cada vez más importante: si construir es más barato, equivocarse en qué construir sale proporcionalmente más caro.

@@ -1,0 +1,21 @@
+---
+// Sustituye al <table> que genera el markdown de las notas (ver components en [id].astro)
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+<div class:list={["brutal max-w-full overflow-x-auto", className]} tabindex="0">
+  <table
+    class:list={[
+      "w-full border-collapse text-base",
+      "[&_th]:border-b-3 [&_th]:border-line [&_th]:bg-sun [&_th]:px-4 [&_th]:py-2.5 [&_th]:text-left [&_th]:text-sm [&_th]:font-bold [&_th]:tracking-wide [&_th]:text-on-accent [&_th]:uppercase",
+      "[&_td]:px-4 [&_td]:py-3 [&_td]:align-top",
+      "[&_tbody_tr+tr]:border-t-2 [&_tbody_tr+tr]:border-dashed [&_tbody_tr+tr]:border-line",
+      "[&_tbody_td:first-child]:font-bold",
+      "[&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-paper motion-reduce:[&_tbody_tr]:transition-none",
+    ]}
+  >
+    <slot />
+  </table>
+</div>
