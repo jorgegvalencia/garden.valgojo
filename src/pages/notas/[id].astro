@@ -24,7 +24,12 @@ const { note, notes } = Astro.props;
 const { Content, headings } = await render(note);
 const related = getRelated(note, notes);
 ---
-<BaseLayout title={`${note.data.title} · Jardín digital`} description={note.data.summary}>
+<BaseLayout
+  title={`${note.data.title} · Jardín digital`}
+  description={note.data.summary}
+  image={note.data.image ?? `/og/${note.id}.png`}
+  type="article"
+>
   <main>
     <NoteHeader note={note} />
 

@@ -17,6 +17,8 @@ const notes = defineCollection({
         .array(z.object({ date: z.coerce.date(), note: z.string().optional() }))
         .default([]),
       related: z.array(reference("notes")).default([]),
+      // Sustituye la imagen social generada; ruta bajo /public (p. ej. "/mi-imagen.png")
+      image: z.string().optional(),
       draft: z.boolean().default(false),
     })
     .refine(({ plantedAt, waterings }) => waterings.every(({ date }) => date >= plantedAt), {
