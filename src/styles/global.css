@@ -18,6 +18,7 @@
     --bubble: #ff9ecb;
     --sky: #8ecbff;
     --lilac: #cdb2ff;
+    --marine: #7ad0ff;
     --tangerine: #ffb36b;
     --on-accent: #151515; /* texto sobre los colores de acento */
     /* Bordes y sombras duras. Por defecto siguen a --ink; un tema puede separarlos. */
@@ -57,6 +58,7 @@
   --color-bubble: var(--bubble);
   --color-sky: var(--sky);
   --color-lilac: var(--lilac);
+  --color-marine: var(--marine);
   --color-tangerine: var(--tangerine);
   --color-on-accent: var(--on-accent);
   --color-line: var(--line);

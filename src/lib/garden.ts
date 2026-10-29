@@ -2,10 +2,11 @@
 export const topics = {
   frontend: { label: "Frontend", bg: "bg-leaf", hoverBg: "hover:bg-leaf" },
   producto: { label: "Producto", bg: "bg-sun", hoverBg: "hover:bg-sun" },
+  desarrolloPersonal: { label: "Desarrollo personal", bg: "bg-marine", hoverBg: "hover:bg-marine" },
   videojuegos: { label: "Videojuegos", bg: "bg-bubble", hoverBg: "hover:bg-bubble" },
+  musica: { label: "Música", bg: "bg-lilac", hoverBg: "hover:bg-lilac" },
   cultura: { label: "Cultura", bg: "bg-tangerine", hoverBg: "hover:bg-tangerine" },
   actualidad: { label: "Actualidad", bg: "bg-sky", hoverBg: "hover:bg-sky" },
-  musica: { label: "Música", bg: "bg-lilac", hoverBg: "hover:bg-lilac" },
 } as const;
 
 export const stages = {
