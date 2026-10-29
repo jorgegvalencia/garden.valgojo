@@ -6,6 +6,7 @@ stage: semilla
 plantedAt: 2026-10-08
 waterings:
   - date: 2026-10-18
+draft: true
 ---
 
 Los grandes museos agotan. Los pequeños se recorren sin prisa y casi siempre tienen a alguien que te cuenta algo.
